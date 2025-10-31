@@ -5,9 +5,17 @@ import { useEffect, useState } from "react";
 import he from "he";
 import { formatDate } from "../utility/dateFormatter";
 
+interface JobPost {
+  id: number;
+  title: string;
+  description?: string;
+  created_at?: string;
+  status?: string;
+}
+
 interface JobPostListingProps {
   header_title: string;
-  data: [];
+  data: JobPost[];
   view: "job_staff" | "moderator" | "job_hunter";
   onAdd?: () => void;
   onHome?: () => void;
@@ -53,7 +61,7 @@ export default function JobPostListing(props: JobPostListingProps) {
           </div>
 
           <ul className="space-y-5">
-            {jobPosts.map((job) => (
+            {jobPosts.map((job: JobPost) => (
               <li
                 key={job.id}
                 className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow duration-200"
