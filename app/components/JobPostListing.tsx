@@ -5,7 +5,17 @@ import { useEffect, useState } from "react";
 import he from "he";
 import { formatDate } from "../utility/dateFormatter";
 
-export default function JobPostListing(props) {
+interface JobPostListingProps {
+  header_title: string;
+  view: "job_staff" | "moderator" | "job_hunter";
+  onAdd?: () => void;
+  onHome?: () => void;
+  onView?: (id: number, status?: string) => void;
+  onApprove?: (id: number) => void;
+  onMarkAsSpam?: (id: number) => void;
+}
+
+export default function JobPostListing(props: JobPostListingProps) {
   const [jobPosts, setJobPosts] = useState([]);
 
   useEffect(() => {
