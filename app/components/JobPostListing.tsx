@@ -7,6 +7,7 @@ import { formatDate } from "../utility/dateFormatter";
 
 interface JobPostListingProps {
   header_title: string;
+  data: [];
   view: "job_staff" | "moderator" | "job_hunter";
   onAdd?: () => void;
   onHome?: () => void;
