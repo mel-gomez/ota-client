@@ -24,7 +24,7 @@ export default function JobPostList() {
     router.push(`/`);
   };
 
-  const onView = (id: string, status: string) => {
+  const onView = (id: number, status?: string) => {
     router.push(`/job-posts/view/${id}?status=${status}`);
   };
 

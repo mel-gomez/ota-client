@@ -13,7 +13,12 @@ type JobPostForm = {
   created_at: string;
 };
 
-export default function JobPostDetail() {
+interface JobPostDetailProps {
+  id: string;
+  status?: string;
+}
+
+export default function JobPostDetail({ id, status }: JobPostDetailProps) {
   const defaultValues: JobPostForm = {
     title: "",
     description: "",

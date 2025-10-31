@@ -7,9 +7,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import he from "he";
 import { formatDate } from "../utility/dateFormatter";
 
-export default function JobPostView() {
+interface JobPost {
+  id: number;
+  title: string;
+  description?: string;
+  created_at?: string;
+  status?: string;
+}
+
+interface JobPostViewProps {
+  id: string;
+}
+
+export default function JobPostView({ id }: JobPostViewProps) {
   const params = useParams();
-  const [jobPost, setJobPost] = useState([]);
+  const [jobPost, setJobPost] = useState<JobPost | null>(null);
   const searchParams = useSearchParams();
   const status = searchParams.get("status");
 
@@ -54,13 +66,13 @@ export default function JobPostView() {
         </div>
         <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
           <h1 className="text-2xl font-bold !text-gray-900 mb-2">
-            {jobPost.title}
+            {jobPost?.title}
           </h1>
 
           <p className="!text-gray-600 mb-6">
             Posted on{" "}
             <span className="font-medium">
-              {formatDate(jobPost.created_at)}
+              {jobPost?.created_at ? formatDate(jobPost.created_at) : "N/A"}
             </span>
           </p>
 
@@ -73,7 +85,7 @@ export default function JobPostView() {
                 className="text-gray-700 text-sm prose max-w-none"
                 style={{ overflow: "hidden" }}
                 dangerouslySetInnerHTML={{
-                  __html: he.decode(jobPost.description || "<p>N/A</p>"),
+                  __html: he.decode(jobPost?.description || "<p>N/A</p>"),
                 }}
               ></div>
             </div>
@@ -84,14 +96,14 @@ export default function JobPostView() {
               </h2>
               <p
                 className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                  jobPost.status === "approved"
+                  jobPost?.status === "approved"
                     ? "bg-green-100 text-green-700"
-                    : jobPost.status === "spam"
+                    : jobPost?.status === "spam"
                     ? "bg-red-100 text-red-700"
                     : "bg-yellow-100 text-yellow-700"
                 }`}
               >
-                {jobPost.status || "Pending"}
+                {jobPost?.status || "Pending"}
               </p>
             </div>
           </div>

@@ -8,11 +8,32 @@ import { useRouter } from "next/navigation";
 import he from "he";
 import JobPostListing from "@/app/components/JobPostListing";
 
+interface JobPost {
+  id: number;
+  title: string;
+  description?: string;
+  created_at?: string;
+  status?: string;
+}
+
+interface NotificationData {
+  title: string;
+  message: string;
+  job_post_id: number;
+}
+
+interface Notification {
+  id: number | string;
+  data: NotificationData;
+  created_at?: string;
+  status?: string;
+}
+
 export default function ModeratorPage() {
   const router = useRouter();
 
-  const [seenIds, setSeenIds] = useState([]);
-  const [jobPosts, setJobPosts] = useState([]);
+  const [seenIds, setSeenIds] = useState<(string | number)[]>([]);
+  const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
 
   const fetchJobPostings = () => {
     JobPostService.getInstance()
@@ -29,11 +50,11 @@ export default function ModeratorPage() {
     router.push(`/`);
   };
 
-  const onView = (id, status) => {
+  const onView = (id: number, status?: string) => {
     router.push(`/job-posts/view/${id}?status=${status}`);
   };
 
-  const onApprove = (id) => {
+  const onApprove = (id: number) => {
     const payload = {
       id: id,
       status: "approved",
@@ -52,7 +73,7 @@ export default function ModeratorPage() {
       });
   };
 
-  const onMarkAsSpam = (id) => {
+  const onMarkAsSpam = (id: number) => {
     const payload = {
       id: id,
       status: "spam",
@@ -87,10 +108,10 @@ export default function ModeratorPage() {
         const notifications = res.data.data;
         console.log("notifications: ", notifications);
         const newNotifications = notifications.filter(
-          (n) => !seenIds.includes(n.id)
+          (n: Notification) => !seenIds.includes(n.id)
         );
 
-        newNotifications.forEach((notification) => {
+        newNotifications.forEach((notification: Notification) => {
           toast.custom(
             (t) => (
               <div className="bg-white shadow p-3 rounded">

@@ -15,7 +15,7 @@ interface JobPost {
 
 interface JobPostListingProps {
   header_title: string;
-  data: [];
+  data: JobPost[];
   view: "job_staff" | "moderator" | "job_hunter";
   onAdd?: () => void;
   onHome?: () => void;
@@ -25,7 +25,7 @@ interface JobPostListingProps {
 }
 
 export default function JobPostListing(props: JobPostListingProps) {
-  const [jobPosts, setJobPosts] = useState([]);
+  const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
 
   useEffect(() => {
     setJobPosts(props.data);

@@ -5,10 +5,18 @@ import { JobPostService } from "../../services/JobPost.services";
 import { useParams, useRouter } from "next/navigation";
 import JobPostListing from "@/app/components/JobPostListing";
 
+interface JobPost {
+  id: number;
+  title: string;
+  description?: string;
+  created_at?: string;
+  status?: string;
+}
+
 export default function JobPostList() {
   const router = useRouter();
   const params = useParams();
-  const [jobPosts, setJobPosts] = useState([]);
+  const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
 
   useEffect(() => {
     JobPostService.getInstance()
@@ -29,7 +37,7 @@ export default function JobPostList() {
     router.push(`/`);
   };
 
-  const onView = (id) => {
+  const onView = (id: number) => {
     router.push(`/job-posts/${params.user_id}/${id}`);
   };
 
