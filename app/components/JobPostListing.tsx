@@ -75,7 +75,9 @@ export default function JobPostListing(props) {
 
                     <button
                       onClick={() => props.onApprove(job.id)}
-                      disabled={!(job.status === "" || job.status === "spam")}
+                      disabled={
+                        job.status === "approved" || job.status === "external"
+                      }
                       hidden={props.view !== "moderator"}
                       className="bg-green-600 text-white px-4 py-2 rounded-md text-sm shadow-sm hover:bg-green-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
@@ -85,7 +87,7 @@ export default function JobPostListing(props) {
                     <button
                       onClick={() => props.onMarkAsSpam(job.id)}
                       disabled={
-                        !(job.status === "" || job.status === "approved")
+                        job.status === "spam" || job.status === "external"
                       }
                       hidden={props.view !== "moderator"}
                       className="bg-red-600 text-white px-4 py-2 rounded-md text-sm shadow-sm hover:bg-red-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"

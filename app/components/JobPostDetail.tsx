@@ -46,7 +46,6 @@ export default function JobPostDetail() {
     JobPostService.getInstance()
       .updateJobPost(payload)
       .then((response) => {
-        setJobPost(response);
         toast.success("Job post saved successfully!");
         window.history.back();
       })
