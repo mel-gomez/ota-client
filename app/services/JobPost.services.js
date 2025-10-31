@@ -9,7 +9,7 @@ export class JobPostService extends Component {
     try {
       const query = new URLSearchParams(params).toString();
       console.log("query: ", query);
-      const url = `http://localhost:8000/api/job-post${
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/job-post${
         query ? `?${query}` : ""
       }`;
       console.log("url: ", url);
@@ -29,12 +29,15 @@ export class JobPostService extends Component {
 
   async getJobPost(id) {
     try {
-      const result = await fetch("http://localhost:8000/api/job-post/" + id, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "GET",
-      });
+      const result = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/job-post/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "GET",
+        }
+      );
       const response = await result.json();
 
       return response.data;
@@ -46,7 +49,7 @@ export class JobPostService extends Component {
   async getExternalJobPost(id) {
     try {
       const result = await fetch(
-        "http://localhost:8000/api/external-job-post/" + id,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/external-job-post/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,13 +67,16 @@ export class JobPostService extends Component {
 
   async createJobPost(param) {
     try {
-      let result = await fetch("http://localhost:8000/api/job-post/", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(param),
-      });
+      let result = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/job-post/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(param),
+        }
+      );
 
       let responseJson = await result.json();
 
@@ -84,7 +90,7 @@ export class JobPostService extends Component {
     // console.log("params: ", param);
     try {
       let result = await fetch(
-        "http://localhost:8000/api/job-post/" + param.id,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/job-post/${param.id}`,
         {
           headers: {
             "Content-Type": "application/json",
