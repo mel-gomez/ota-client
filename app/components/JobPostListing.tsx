@@ -15,7 +15,7 @@ interface JobPost {
 
 interface JobPostListingProps {
   header_title: string;
-  data: JobPost[];
+  data: [];
   view: "job_staff" | "moderator" | "job_hunter";
   onAdd?: () => void;
   onHome?: () => void;
