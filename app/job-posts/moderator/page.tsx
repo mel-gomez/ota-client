@@ -99,14 +99,11 @@ export default function ModeratorPage() {
   useEffect(() => {
     const interval = setInterval(async () => {
       const res = await axios.get(
-        "http://localhost:8000/api/moderator-notifications"
+        `${process.env.NEXT_PUBLIC_API_URL}/api/moderator-notifications`
       );
-      console.log("res: ", res);
 
       if (Array.isArray(res.data.data)) {
-        console.log("inside isarray");
         const notifications = res.data.data;
-        console.log("notifications: ", notifications);
         const newNotifications = notifications.filter(
           (n: Notification) => !seenIds.includes(n.id)
         );

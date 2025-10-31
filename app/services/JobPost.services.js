@@ -8,11 +8,9 @@ export class JobPostService extends Component {
   async getJobPosts(params = {}) {
     try {
       const query = new URLSearchParams(params).toString();
-      console.log("query: ", query);
       const url = `${process.env.NEXT_PUBLIC_API_URL}/api/job-post${
         query ? `?${query}` : ""
       }`;
-      console.log("url: ", url);
       const result = await fetch(url, {
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +85,6 @@ export class JobPostService extends Component {
   }
 
   async updateJobPost(param) {
-    // console.log("params: ", param);
     try {
       let result = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/job-post/${param.id}`,
@@ -95,7 +92,7 @@ export class JobPostService extends Component {
           headers: {
             "Content-Type": "application/json",
           },
-          method: "PUT",
+          method: "PATCH",
           body: JSON.stringify(param),
         }
       );
