@@ -36,7 +36,7 @@ export default function JobPostListing(props: JobPostListingProps) {
 
             <div className="flex flex-wrap gap-3">
               <button
-                onClick={() => props.onAdd?()}
+                onClick={() => props.onAdd?.()}
                 hidden={props.view !== "job_staff"}
                 className="bg-blue-600 text-white px-5 py-2.5 rounded-lg shadow-sm hover:bg-blue-700 transition-colors text-sm font-medium"
               >
@@ -44,7 +44,7 @@ export default function JobPostListing(props: JobPostListingProps) {
               </button>
 
               <button
-                onClick={() => props.onHome?()}
+                onClick={() => props.onHome?.()}
                 className="bg-gray-100 text-gray-800 px-5 py-2.5 rounded-lg shadow-sm hover:bg-gray-200 transition-colors text-sm font-medium"
               >
                 ← Back to Home
@@ -78,14 +78,14 @@ export default function JobPostListing(props: JobPostListingProps) {
 
                   <div className="flex sm:flex-col gap-2 sm:gap-3 sm:items-end">
                     <button
-                      onClick={() => props.onView?(job.id, job.status)}
+                      onClick={() => props.onView?.(job.id, job.status)}
                       className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm shadow-sm hover:bg-blue-700 transition"
                     >
                       {props.view === "job_staff" ? "Edit" : "View"}
                     </button>
 
                     <button
-                      onClick={() => props.onApprove?(job.id)}
+                      onClick={() => props.onApprove?.(job.id)}
                       disabled={
                         job.status === "approved" || job.status === "external"
                       }
@@ -96,7 +96,7 @@ export default function JobPostListing(props: JobPostListingProps) {
                     </button>
 
                     <button
-                      onClick={() => props.onMarkAsSpam?(job.id)}
+                      onClick={() => props.onMarkAsSpam?.(job.id)}
                       disabled={
                         job.status === "spam" || job.status === "external"
                       }
