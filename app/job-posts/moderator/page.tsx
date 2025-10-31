@@ -1,0 +1,148 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
+import axios from "axios";
+import JobPostService from "@/app/services/JobPost.services";
+import { useRouter } from "next/navigation";
+import he from "he";
+import JobPostListing from "@/app/components/JobPostListing";
+
+export default function ModeratorPage() {
+  const router = useRouter();
+
+  const [seenIds, setSeenIds] = useState([]);
+  const [jobPosts, setJobPosts] = useState([]);
+
+  const fetchJobPostings = () => {
+    JobPostService.getInstance()
+      .getJobPosts()
+      .then((response) => {
+        setJobPosts(response);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  const onHome = () => {
+    router.push(`/`);
+  };
+
+  const onView = (id, status) => {
+    router.push(`/job-posts/view/${id}?status=${status}`);
+  };
+
+  const onApprove = (id) => {
+    const payload = {
+      id: id,
+      status: "approved",
+    };
+    JobPostService.getInstance()
+      .updateJobPost(payload)
+      .then((response) => {
+        toast.success("Job post saved successfully!");
+        fetchJobPostings();
+      })
+      .catch((error) => {
+        throw error;
+        const message =
+          error.response?.data?.message || "Failed to save job post.";
+        toast.error(message);
+      });
+  };
+
+  const onMarkAsSpam = (id) => {
+    const payload = {
+      id: id,
+      status: "spam",
+    };
+    JobPostService.getInstance()
+      .updateJobPost(payload)
+      .then((response) => {
+        toast.success("Job post saved successfully!");
+        fetchJobPostings();
+      })
+      .catch((error) => {
+        throw error;
+        const message =
+          error.response?.data?.message || "Failed to save job post.";
+        toast.error(message);
+      });
+  };
+
+  useEffect(() => {
+    fetchJobPostings();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const res = await axios.get(
+        "http://localhost:8000/api/moderator-notifications"
+      );
+      console.log("res: ", res);
+
+      if (Array.isArray(res.data.data)) {
+        console.log("inside isarray");
+        const notifications = res.data.data;
+        console.log("notifications: ", notifications);
+        const newNotifications = notifications.filter(
+          (n) => !seenIds.includes(n.id)
+        );
+
+        newNotifications.forEach((notification) => {
+          toast.custom(
+            (t) => (
+              <div className="bg-white shadow p-3 rounded">
+                <p className="font-bold text-blue-400">
+                  {notification.data.title}
+                </p>
+                <div
+                  className="text-gray-700 text-sm prose max-w-none"
+                  dangerouslySetInnerHTML={{
+                    __html: he.decode(notification.data.message || ""),
+                  }}
+                ></div>
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={() => onApprove(notification.data.job_post_id)}
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => onMarkAsSpam(notification.data.job_post_id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    Mark as Spam
+                  </button>
+                </div>
+              </div>
+            ),
+            {
+              duration: 4000,
+            }
+          );
+        });
+
+        // setSeenIds((prev) => [...prev, ...newNotifications.map((n) => n.id)]);
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [seenIds]);
+
+  return (
+    <main className="min-h-screen bg-gray-50 py-10">
+      <JobPostListing
+        header_title={"Moderator Dashboard"}
+        data={jobPosts}
+        view={"moderator"}
+        onView={onView}
+        onHome={onHome}
+        onApprove={onApprove}
+        onMarkAsSpam={onMarkAsSpam}
+      />
+    </main>
+  );
+}

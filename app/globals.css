@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+/* 🌈 Color and font theme variables */
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --muted: #6b7280; /* gray-500 */
+  --accent: #2563eb; /* blue-600 */
+  --card-bg: #f9fafb; /* gray-50 */
+  --border-color: #e5e7eb; /* gray-200 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* 🌙 Dark mode styling */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #f3f4f6;
+    --muted: #9ca3af;
+    --accent: #3b82f6;
+    --card-bg: #1f2937;
+    --border-color: #374151;
+  }
+}
+
+/* 🔤 Base styles */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, "Inter", "Helvetica", "Arial", sans-serif);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* 🧱 Layout helpers */
+.container {
+  @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* 🧭 Header styles */
+header {
+  @apply flex justify-between items-center py-6 border-b;
+  border-color: var(--border-color);
+}
+
+/* 🧾 Card styles */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  @apply shadow-sm transition hover:shadow-md;
+}
+
+/* 🧩 Buttons */
+button {
+  @apply rounded-md px-4 py-2 font-medium transition-colors;
+}
+
+button.primary {
+  background-color: var(--accent);
+  color: white;
+}
+
+button.primary:hover {
+  background-color: #1e40af; /* darker blue */
+}
+
+button.secondary {
+  background-color: var(--border-color);
+  color: var(--foreground);
+}
+
+button.secondary:hover {
+  background-color: #d1d5db; /* gray-300 */
+}
+
+/* 📋 Form inputs */
+input,
+textarea,
+select {
+  @apply w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500;
+  background-color: white;
+}
+
+/* 🧾 Typography */
+h1,
+h2,
+h3 {
+  @apply font-bold;
+  color: white;
+}
+
+p {
+  @apply text-gray-700;
+}
+
+/* 📱 Responsive spacing */
+section {
+  @apply my-6;
+}
