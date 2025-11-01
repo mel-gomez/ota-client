@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+OTA Client (Next.js)
 
-## Getting Started
+A modern, responsive web client built with **Next.js (React)** that interfaces with the OTA Server (Laravel 12 API).
+The frontend emphasizes performance, modularity, and ease of integration with RESTful endpoints.
 
-First, run the development server:
+Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+| Component         | Technology                | Reason for Use                                                             |
+| ----------------- | ------------------------- | -------------------------------------------------------------------------- |
+| Framework         | **Next.js (React)**       | Offers SSR (Server-Side Rendering) and static generation for speed and SEO |
+| UI Styling        | **Tailwind CSS**          | Utility-first CSS framework for fast and consistent styling                |
+| State Management  | **React Query / Zustand** | Efficient caching and server state synchronization                         |
+| API Communication | **Fetch/Axios**           | Simplifies HTTP requests to Laravel API                                    |
+| Routing           | **Next.js Routing**       | File-based routing for simple navigation and page control                  |
+| Hosting           | **Vercel**                | Optimized platform for deploying Next.js apps with zero-config CI/CD       |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+System Flow
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **User interacts** with the UI (forms, tables, dashboards).
+2. **API call** via Fetch/Axios → sent to Laravel API hosted on Railway.
+3. **Laravel returns JSON** responses.
+4. **React Query** caches results and updates UI state reactively.
+5. **Conditional rendering** based on data and user auth state.
+6. **Dynamic routing** supports user-specific views and role-based access.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Key Features
 
-## Learn More
+- Fully responsive UI (Tailwind CSS)
+- RESTful integration with backend
+- Modular component and layout structure
+- Hooks and utilities for reusability
+- Environment-based configuration (`NEXT_PUBLIC_API_URL`)
 
-To learn more about Next.js, take a look at the following resources:
+Design Decisions (Why I Used This, Not That)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Next.js vs Vue/Nuxt**: Chose Next.js for its SSR and strong React ecosystem support.
+- **Axios vs Fetch**: Axios provides simpler error handling and interceptors for attaching tokens.
+- **Tailwind CSS vs Bootstrap**: Faster development with design consistency and less CSS bloat.
+- **Vercel vs Netlify**: Native integration with Next.js, providing faster deploys and previews.
+- **React Query vs Redux**: Focuses on server-state management; lighter and easier for APIs.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deployment Flow
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `git push` to main → triggers Vercel auto-deployment.
+- Environment variables configured in Vercel dashboard.
+- Backend API URL is read from `NEXT_PUBLIC_API_URL`.
+- Frontend automatically rebuilds and redeploys after merge.
